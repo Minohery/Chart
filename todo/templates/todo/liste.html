@@ -1,0 +1,51 @@
+{% extends 'todo/base.html' %}
+{% block link %}<link rel="stylesheet" href='/static/todo/bootstrap.css' type="text/css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<script src="/static/todo/query.js"></script>
+{% endblock %}
+
+{% block content %}
+<h1>Cars and consumption</h1>
+<ol>
+{% for a in liste %}
+<form action="{% url 'todo:delete' a.pk %}" method="POST">
+{% csrf_token %}
+<li>{{ a }} , Consommation : {{ a.consommation }} L/100;</li>
+<input type="submit" value="Done">
+
+
+</form>
+{% endfor %}
+</ol>
+<table>
+
+{# These classes will allow bootstrap 4 to recognize and design the form #}
+<div class="container">
+<div class="row">
+<div class="col"> 
+<form action="{% url 'todo:add' %}" method="POST">
+{% csrf_token %}
+{{ form.as_table }}
+</div>
+</div>
+</div>
+
+</table>
+{# This class will allow bootstrap4 to recognize and design the button #}
+<input class="btn btn-success" type="submit" value="Add">
+
+</form>
+
+{% if liste.count >= 1 %}
+
+<form action="{% url 'todo:draw' %}" method="POST">
+{% csrf_token %}
+<input type="submit" value="Draw the graph">
+</form>
+
+{% endif %}
+{% if error %}
+{{ error }}
+{% endif %}
+
+{% endblock %}
